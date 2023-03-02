@@ -1,24 +1,24 @@
-import {DataType, DataTypes, Model, Optional} from "sequelize";
+import {DataTypes, Model, Optional} from "sequelize";
 import connection from '../../config/dbConnect';
 
 interface RoleAttributes {
-  id ?: number,
-  roleName ?: string | null,
-  active ?: boolean | null
+  id?: number,
+  roleName?: string | null,
+  active?: boolean | null
 
-  createdAt ?: Date,
-  updatedAt ?: Date
+  createdAt?: Date,
+  updatedAt?: Date
 }
 
-export interface RoleInput extends Optional<RoleAttributes, "id">{}
+export interface RoleInput extends Optional<RoleAttributes, 'id'>{ }
 export interface RoleOutput extends Required<RoleAttributes>{}
 
 class Role extends Model<RoleAttributes, RoleInput> implements RoleAttributes{
-  public id !: number
-  public roleName !: string
-  public active !: boolean
-  public readonly createdAt !: Date
-  public readonly updatedAt !: Date
+  public id!: number
+  public roleName!: string
+  public active!: boolean
+  public readonly createdAt!: Date
+  public readonly updatedAt!: Date
 }
 
 Role.init({
@@ -26,7 +26,7 @@ Role.init({
     allowNull: false,
     autoIncrement: true,
     primaryKey: true,
-    type: DataTypes.INTEGER
+    type: DataTypes.BIGINT
   },
   roleName:{
     allowNull: true,
