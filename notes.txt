@@ -1,0 +1,5 @@
+
+
+
+// migrate ke databases
+npx sequelize-cli db:migrate
