@@ -3,3 +3,6 @@
 
 // migrate ke databases
 npx sequelize-cli db:migrate
+
+//make seeder with sequelize
+npx sequelize-cli seed:generate --name RoleSeeder
