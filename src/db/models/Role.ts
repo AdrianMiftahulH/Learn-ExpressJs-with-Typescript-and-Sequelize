@@ -1,6 +1,7 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import connection from "../../config/dbConnect";
 
+// membuat iterface
 interface RoleAttributes {
   id?: number,
   roleName?: string | null,
@@ -13,6 +14,7 @@ interface RoleAttributes {
 export interface RoleInput extends Optional<RoleAttributes, 'id'>{ }
 export interface RoleOutput extends Required<RoleAttributes>{ }
 
+// membuat class implements dari interface RoleAttributes
 class Role extends Model<RoleAttributes, RoleInput> implements RoleAttributes {
   public id!: number;
   public roleName!: string;
