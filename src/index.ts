@@ -6,7 +6,10 @@ dotenv.config();
 
 const app = express();
 
-// menghubkan ke router
+// Untuk menerima data bersifat json
+app.use(express.json())
+
+// menghubungkan ke router
 app.use(router);
 
 app.get("/", (req:Request, res: Response) => {

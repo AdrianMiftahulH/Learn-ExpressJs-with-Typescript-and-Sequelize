@@ -1,6 +1,7 @@
 import express from "express";
 
 import RoleController from "../controllers/RoleController";
+import UserController from "../controllers/UserController";
 
 const router = express.Router();
 
@@ -14,5 +15,8 @@ router.post("/role/:id", RoleController.UpdateRole);
 router.delete("/role/:id", RoleController.DeleteRole);
 // memanggil data sesuai id
 router.get("/role/:id", RoleController.GetRoleById);
+
+// Router User
+router.post("/user/register", UserController.Register)
 
 export default router;
