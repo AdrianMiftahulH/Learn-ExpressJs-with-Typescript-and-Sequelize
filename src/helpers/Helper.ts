@@ -1,3 +1,8 @@
+import jwt from "jsonwebtoken"
+import dotenv from "dotenv";
+
+dotenv.config();
+
 const ResponseData = (status:number, message: string | null, error: any | null, data: any | null) => {
     // kondisi bila error tersebut tidak null
 		if (error != null && error instanceof Error) {
@@ -22,4 +27,20 @@ const ResponseData = (status:number, message: string | null, error: any | null, 
         return res
 }
 
-export default { ResponseData}
+const GenerateToken = (data: any): string =>{
+    const token = jwt.sign(data, process.env.JWT_TOKEN as string,{
+        expiresIn: "10m"
+    });
+
+    return token;
+}
+
+const GenerateRefreshToken = (data: any): string =>{
+    const token = jwt.sign(data, process.env.JWT_REFRESH_TOKEN as string,{
+        expiresIn: "1d"
+    });
+
+    return token;
+}   
+
+export default { ResponseData, GenerateToken, GenerateRefreshToken}

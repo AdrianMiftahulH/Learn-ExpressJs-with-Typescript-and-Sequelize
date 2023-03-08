@@ -22,13 +22,13 @@ export interface UserOutput extends Required<UserAttributes>{ }
 // membuat class implements dari interface UserAttributes
 class User extends Model<UserAttributes, UserInput> implements UserAttributes {
     public id!: number;
-    public name!: string | null;
-    public email!: string | null;
-    public password!: string | null;
-    public roleId!: number | null;
-    public accessToken!: string | null;
-    public verified!: boolean | null;
-    public active!: boolean | null;
+    public name!: string;
+    public email!: string;
+    public password!: string;
+    public roleId!: number;
+    public accessToken!: string;
+    public verified!: boolean;
+    public active!: boolean;
 
     public readonly createdAt!: Date;
     public readonly updatedAt! : Date;
