@@ -6,11 +6,12 @@ import UserController from "../controllers/UserController";
 
 // Middlewares
 import UserValidation from "../middleware/validation/UserValidation"
-
+import Authorization from "../middleware/Authorization";
 const router = express.Router();
 
 // memanggil semua data
-router.get("/role", RoleController.GetRole);
+// Menambahakan middleware Authorization untuk user bila ingin akses tapi belom login maka tidak bisa
+router.get("/role", Authorization.Authenticated , RoleController.GetRole);
 // membuat sebuah data
 router.post("/role", RoleController.CreateRole);
 // mengupdate data sesuai id
