@@ -36,9 +36,9 @@ const ResponseData = (status:number, message: string | null, error: any | null, 
 }
 
 const GenerateToken = (data: any): string =>{
-    // membuat sebuah refresh token dengan jsonwebtoken di tambah waktu expired 10 menit
+    // membuat sebuah refresh token dengan jsonwebtoken di tambah waktu expired 10 detik
     const token = jwt.sign(data, process.env.JWT_TOKEN as string,{
-        expiresIn: "10m"
+        expiresIn: "10s"
     });
 
     return token;

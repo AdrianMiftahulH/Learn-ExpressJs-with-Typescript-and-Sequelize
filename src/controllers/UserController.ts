@@ -99,4 +99,42 @@ const UserLogin = async (req: Request, res: Response): Promise<Response> => {
     }
 }
 
-export default {Register, UserLogin}
+// Bila udh eperide makan akan di buat token baru
+const RefreshToken = async (req: Request, res: Response): Promise<Response> => {
+    try {
+        const refreshToken = req.cookies?.refreshToken;
+
+        if (!refreshToken){
+            return res.status(401).send(Helper.ResponseData(401, "Unauthorized", null, null))
+        }
+        
+        const decodedUser = Helper.ExtractRefreshToken(refreshToken);
+        if(!decodedUser){
+            return res.status(401).send(Helper.ResponseData(401, "Unauthorized", null, null))
+        } 
+
+        const token = Helper.GenerateToken({
+            name: decodedUser.name,
+            email: decodedUser.email,
+            roleId: decodedUser.roleId,
+            active: decodedUser.active,
+            verified: decodedUser. verified,
+        })
+
+        const resultUser = {
+            name: decodedUser.name,
+            email: decodedUser.email,
+            roleId: decodedUser.roleId,
+            active: decodedUser.active,
+            verified: decodedUser. verified,
+            token: token
+        }
+
+        return res.status(200).send(Helper.ResponseData(200, "OK", null, resultUser));
+    } catch (error) {
+        // Kondisi bila Error
+        return res.status(500).send(Helper.ResponseData(500, "", error, null)); 
+    }
+}
+
+export default {Register, UserLogin, RefreshToken}
