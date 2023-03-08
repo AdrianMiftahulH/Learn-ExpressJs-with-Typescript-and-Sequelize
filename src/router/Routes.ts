@@ -6,11 +6,12 @@ import UserController from "../controllers/UserController";
 
 // Middlewares
 import UserValidation from "../middleware/validation/UserValidation"
-
+import Authorization from "../middleware/Authorization";
 const router = express.Router();
 
 // memanggil semua data
-router.get("/role", RoleController.GetRole);
+// Menambahakan middleware Authorization untuk user bila ingin akses tapi belom login maka tidak bisa
+router.get("/role", Authorization.Authenticated , RoleController.GetRole);
 // membuat sebuah data
 router.post("/role", RoleController.CreateRole);
 // mengupdate data sesuai id
@@ -20,8 +21,11 @@ router.delete("/role/:id", RoleController.DeleteRole);
 // memanggil data sesuai id
 router.get("/role/:id", RoleController.GetRoleById);
 
-// Router User
+// Router Register
 // Jadi kegunaan middleware itu untuk memvalidasi dahulu bila berhasil maka akan dilanjutkan ke Controller. Bila tidak akan di stop di middleware tidak akan di lanjutkan ke controller
 router.post("/user/register", UserValidation.RegisterValidation, UserController.Register)
+
+// Router Login
+router.post("/user/login", UserController.UserLogin)
 
 export default router;
