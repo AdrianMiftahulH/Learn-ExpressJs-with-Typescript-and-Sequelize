@@ -139,12 +139,13 @@ const RefreshToken = async (req: Request, res: Response): Promise<Response> => {
 
 const UserDetail = async (req: Request, res: Response): Promise<Response> => {
     try {
-        const email = res.locals.userEmail;
+        const email = res.locals.userId;
         const user = await User.findOne({
             where: {
                 email: email
             }
         });
+        
 
         if (!user) {
             return res.status(404).send(Helper.ResponseData(404, "User Not found", null, null));
@@ -159,13 +160,37 @@ const UserDetail = async (req: Request, res: Response): Promise<Response> => {
 
 const UserLogout =async (req:Request, res: Response): Promise<Response> => {
     try {
-        const refreshToken = req.cookies?.refreshToken;
+        const refreshToken = req.cookies?.refreshCookie;
+        if (!refreshToken) {
+            return res.status(200).send(Helper.ResponseData(200, "User Logout", null, null))
+        }
+        const email = res.locals.userId;
+        const user = await User.findOne({
+            where: {
+                email: email
+            }
+        });
+        
 
-        return res.status(200).send(refreshToken);
+        if (!user) {
+            res.clearCookie("refreshCookie");
+            return res.status(200).send(Helper.ResponseData(200, "User Logout", null, null))
+        }
+        await user.update(
+            {
+            accessToken:null,
+            },{
+                where: {
+                    email: email
+                }
+            }
+        )
+        res.clearCookie("refreshCookie");
+        return res.status(200).send(Helper.ResponseData(200, "User Logout", null, null))
     } catch (error) {
         // Kondisi bila Error
         return res.status(500).send(Helper.ResponseData(500, "", error, null)); 
     }
 }
 
-export default {Register, UserLogin, RefreshToken, UserDetail}
+export default {Register, UserLogin, RefreshToken, UserDetail, UserLogout}

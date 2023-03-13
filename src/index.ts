@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import dotenv from "dotenv";
 import router from "./router/Routes";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 
@@ -8,7 +9,7 @@ const app = express();
 
 // Untuk menerima data bersifat json
 app.use(express.json())
-
+app.use(cookieParser())
 // menghubungkan ke router
 app.use(router);
 

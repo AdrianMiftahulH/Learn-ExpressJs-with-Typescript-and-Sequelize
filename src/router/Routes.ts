@@ -32,5 +32,5 @@ router.get("/user/refresh-token", UserController.RefreshToken);
 
 // Logout
 router.get("/user/current-user", Authorization.Authenticated, UserController.UserDetail)
-router.get("/user/logout")
+router.get("/user/logout", Authorization.Authenticated, UserController.UserLogout)
 export default router;
