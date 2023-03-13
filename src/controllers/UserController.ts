@@ -137,4 +137,35 @@ const RefreshToken = async (req: Request, res: Response): Promise<Response> => {
     }
 }
 
-export default {Register, UserLogin, RefreshToken}
+const UserDetail = async (req: Request, res: Response): Promise<Response> => {
+    try {
+        const email = res.locals.userEmail;
+        const user = await User.findOne({
+            where: {
+                email: email
+            }
+        });
+
+        if (!user) {
+            return res.status(404).send(Helper.ResponseData(404, "User Not found", null, null));
+        }
+
+        return res.status(200).send(Helper.ResponseData(200, "OK", null, user))
+    } catch (error) {
+        // Kondisi bila Error
+        return res.status(500).send(Helper.ResponseData(500, "", error, null)); 
+    }
+}
+
+const UserLogout =async (req:Request, res: Response): Promise<Response> => {
+    try {
+        const refreshToken = req.cookies?.refreshToken;
+
+        return res.status(200).send(refreshToken);
+    } catch (error) {
+        // Kondisi bila Error
+        return res.status(500).send(Helper.ResponseData(500, "", error, null)); 
+    }
+}
+
+export default {Register, UserLogin, RefreshToken, UserDetail}

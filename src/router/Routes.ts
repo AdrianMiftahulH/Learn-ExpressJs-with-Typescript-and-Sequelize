@@ -29,4 +29,8 @@ router.post("/user/register", UserValidation.RegisterValidation, UserController.
 router.post("/user/login", UserController.UserLogin)
 // Router Refresh Token
 router.get("/user/refresh-token", UserController.RefreshToken);
+
+// Logout
+router.get("/user/current-user", Authorization.Authenticated, UserController.UserDetail)
+router.get("/user/logout")
 export default router;

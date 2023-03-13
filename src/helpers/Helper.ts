@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-interface userData{
+interface UserData{
     name: string | null,
     email: string | null,
     roleId: string | null,
@@ -38,7 +38,7 @@ const ResponseData = (status:number, message: string | null, error: any | null, 
 const GenerateToken = (data: any): string =>{
     // membuat sebuah refresh token dengan jsonwebtoken di tambah waktu expired 10 detik
     const token = jwt.sign(data, process.env.JWT_TOKEN as string,{
-        expiresIn: "10s"
+        expiresIn: "1h"
     });
 
     return token;
@@ -53,31 +53,27 @@ const GenerateRefreshToken = (data: any): string =>{
     return token;
 }   
 
-const ExtractToken = (token: string): userData | null => {
-    // Membuat sebuah kata kunci dengan value env JWT TOKEN
-    const secretKey: string = process.env.JWT_TOKEN as string;
+const ExtractToken = (token: string): UserData | null => {
+	const secretKey: string = process.env.JWT_TOKEN as string;
 
-    let resData: any;
+	let resData: any;
 
-    // memverifikasi 
-    const res = jwt.verify(token, secretKey, (err, decoded) => {
-        if (err){
-            resData = null
-        }else{
-            resData = decoded
-        }
+	const res = jwt.verify(token, secretKey, (err, decoded) => {
+		if (err) {
+			resData = null
+		} else {
+			resData = decoded
+		}
+	});
 
-        if (resData){
-            const result: userData = <userData>(resData);
-
-            return result;
-        }
-    })
-
-    return null;
+	if (resData) {
+		const result: UserData = <UserData>(resData);
+		return result;
+	}
+	return null;
 }
 
-const ExtractRefreshToken = (token: string): userData | null => {
+const ExtractRefreshToken = (token: string): UserData | null => {
     const secretKey: string = process.env.JWT_REFRESH_TOKEN as string;
 
     let resData: any;
@@ -89,8 +85,9 @@ const ExtractRefreshToken = (token: string): userData | null => {
             resData = decoded
         }
 
+        
         if (resData){
-            const result: userData = <userData>(resData);
+            const result: UserData = <UserData>(resData);
 
             return result;
         }
