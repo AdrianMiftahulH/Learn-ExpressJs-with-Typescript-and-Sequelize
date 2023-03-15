@@ -6,7 +6,7 @@ import PasswordHelper from "../helpers/PasswordHelper";
 const Register = async (req: Request, res: Response): Promise<Response> => {
     try {
         // Memanggil request body
-        const { name, email, password, confirmPassword } = req.body;
+        const { name, email, password, confirmPassword, roleUser } = req.body;
         
         // Membuat Password hash
         const hashed = await PasswordHelper.PasswordHashing(password);
@@ -18,7 +18,7 @@ const Register = async (req: Request, res: Response): Promise<Response> => {
             password: hashed,
             active: true,
             verified: true,
-            roleId: 1
+            roleId: roleUser
         });
 
         // Kondisi bila hasil nya berhasil / true
